@@ -1,0 +1,382 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta http-equiv="Content-Style-Type" content="text/css">
+  <title></title>
+  <meta name="Generator" content="Cocoa HTML Writer">
+  <meta name="CocoaVersion" content="2685.3">
+  <style type="text/css">
+    p.p1 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica; -webkit-text-stroke: #000000}
+    p.p2 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica; -webkit-text-stroke: #000000; min-height: 14.0px}
+    span.s1 {font-kerning: none}
+  </style>
+</head>
+<body>
+<p class="p1"><span class="s1">&lt;!DOCTYPE html&gt;</span></p>
+<p class="p1"><span class="s1">&lt;html lang="en"&gt;</span></p>
+<p class="p1"><span class="s1">&lt;head&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;meta charset="UTF-8"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;title&gt;Neural Notes Unlimited&lt;/title&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;style&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>:root {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>--bg-color: #0f172a;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>--surface-color: #1e293b;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>--primary: #f59e0b;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>--accent: #0ea5e9;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>--text: #f8fafc;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>--text-muted: #94a3b8;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>--bmc-yellow: #FFDD00;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>}</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>body {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>font-family: 'Segoe UI', system-ui, sans-serif;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>background-color: var(--bg-color);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>color: var(--text);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>margin: 0;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>height: 100vh;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>display: flex;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>flex-direction: column;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>overflow: hidden;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>}</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>header {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>display: flex;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>justify-content: space-between;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>align-items: center;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>padding: 20px 40px;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>background: rgba(15, 23, 42, 0.9);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>border-bottom: 1px solid rgba(255,255,255,0.05);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>z-index: 10;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>}</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>.logo-container {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>display: flex;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>align-items: center;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>gap: 15px;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>font-weight: 700;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>font-size: 1.5rem;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>}</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>.logo-img {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>width: 45px;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>height: 45px;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>object-fit: contain;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>background: rgba(255, 255, 255, 0.1);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>border-radius: 8px;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>padding: 5px;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>}</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>.brand-link {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>color: var(--text);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>text-decoration: none;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>transition: color 0.2s ease;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>}</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">        </span></span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>.brand-link:hover { color: var(--primary); }</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>.controls { display: flex; gap: 15px; }</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>select, button {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>padding: 8px 16px;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>border-radius: 6px;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>border: 1px solid var(--surface-color);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>background: var(--surface-color);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>color: var(--text);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>cursor: pointer;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>font-size: 0.9rem;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>}</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">        </span></span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>button#startButton {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>background: var(--primary);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>color: #000;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>border: none;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>font-weight: 600;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>}</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>.main-stage {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>flex: 1;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>display: flex;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>flex-direction: column;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>align-items: center;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>justify-content: center;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>position: relative;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>}</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>.note-container {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>text-align: center;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>margin-bottom: 40px;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>z-index: 2;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>}</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>#swara-display {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>font-size: 7rem;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>font-weight: 800;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>margin: 0;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>line-height: 1;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>text-shadow: 0 0 30px rgba(245, 158, 11, 0.2);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>}</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>#hz-display {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>font-family: monospace;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>color: var(--text-muted);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>font-size: 1.2rem;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>margin-top: 10px;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>}</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>.fine-tune-bar {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>width: 300px;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>height: 6px;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>background: var(--surface-color);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>border-radius: 3px;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>margin: 25px auto;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>position: relative;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>overflow: visible; /* Changed to see the dot clearly */</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>.fine-tune-indicator {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>width: 12px;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>height: 12px;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>background: var(--text);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>position: absolute;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>left: 50%;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>top: -3px; /* Center dot on bar */</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>transform: translateX(-50%);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>border-radius: 50%;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>transition: left 0.15s ease-out;<span class="Apple-converted-space"> </span></span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>box-shadow: 0 0 8px rgba(255,255,255,0.5);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>.center-marker {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>position: absolute;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>left: 50%;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>height: 100%;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>width: 2px;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>background: var(--primary);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>transform: translateX(-50%);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>z-index: 1;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>}</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>.visualizer-container {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>width: 100%;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>height: 120px;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>position: relative;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>background: linear-gradient(to bottom, transparent, rgba(30, 41, 59, 0.3));</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>}</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>#ribbon-canvas { width: 100%; height: 100px; }</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>.bmc-btn {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>position: fixed;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>bottom: 25px;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>right: 25px;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>display: flex;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>align-items: center;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>gap: 10px;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>background-color: var(--bmc-yellow);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>color: #000000;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>padding: 10px 20px;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>border-radius: 30px;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>text-decoration: none;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>font-weight: 700;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>font-size: 1rem;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>box-shadow: 0 4px 15px rgba(0,0,0,0.3);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>z-index: 100;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;/style&gt;</span></p>
+<p class="p1"><span class="s1">&lt;/head&gt;</span></p>
+<p class="p1"><span class="s1">&lt;body&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;header&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;div class="logo-container"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;img src="logo.jpg" class="logo-img" alt="Logo"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;a href="https://www.youtube.com/@NeuralNotesUnlimited" target="_blank" class="brand-link"&gt;Neural Notes Unlimited&lt;/a&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;div class="controls"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;select id="tonic-select"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>&lt;option value="0"&gt;Sa = C&lt;/option&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>&lt;option value="1"&gt;Sa = C#&lt;/option&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>&lt;option value="2"&gt;Sa = D&lt;/option&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>&lt;option value="3"&gt;Sa = D#&lt;/option&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>&lt;option value="4"&gt;Sa = E&lt;/option&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>&lt;option value="5"&gt;Sa = F&lt;/option&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>&lt;option value="6"&gt;Sa = F#&lt;/option&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>&lt;option value="7"&gt;Sa = G&lt;/option&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>&lt;option value="8"&gt;Sa = G#&lt;/option&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>&lt;option value="9"&gt;Sa = A&lt;/option&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>&lt;option value="10"&gt;Sa = A#&lt;/option&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>&lt;option value="11"&gt;Sa = B&lt;/option&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;/select&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;button id="startButton"&gt;Start Microphone&lt;/button&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;/header&gt;</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;div class="main-stage"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;div class="note-container"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;div id="swara-display"&gt;--&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;div class="fine-tune-bar"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>&lt;div class="center-marker"&gt;&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>&lt;div class="fine-tune-indicator" id="cents-indicator"&gt;&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;div id="hz-display"&gt;Ready to sing&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;div class="visualizer-container"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;canvas id="ribbon-canvas"&gt;&lt;/canvas&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;a href="https://buymeacoffee.com/ajayprkm" target="_blank" class="bmc-btn"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:20px;height:20px;"&gt;&lt;path d="M18 8h1a4 4 0 0 1 0 8h-1"&gt;&lt;/path&gt;&lt;path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"&gt;&lt;/path&gt;&lt;line x1="6" y1="1" x2="6" y2="4"&gt;&lt;/line&gt;&lt;line x1="10" y1="1" x2="10" y2="4"&gt;&lt;/line&gt;&lt;line x1="14" y1="1" x2="14" y2="4"&gt;&lt;/line&gt;&lt;/svg&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>Buy me a coffee</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;/a&gt;</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;script&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>const SARGAM = ["Sa", "re", "Re", "ga", "Ga", "ma", "Ma", "Pa", "dha", "Dha", "ni", "Ni"];</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>const PITCH_SMOOTHING = 0.12;<span class="Apple-converted-space"> </span></span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>const VIEW_SMOOTHING = 0.04; // Increased dampening for ribbon</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>const MEDIAN_WINDOW = 9; // Slightly larger window for higher stability</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>const ribbonCanvas = document.getElementById('ribbon-canvas');</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>const ctxRibbon = ribbonCanvas.getContext('2d');</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>const swaraDisplay = document.getElementById('swara-display');</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>const hzDisplay = document.getElementById('hz-display');</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>const centsIndicator = document.getElementById('cents-indicator');</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>const startBtn = document.getElementById('startButton');</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>const tonicSelect = document.getElementById('tonic-select');</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>let audioContext, analyser, biquadFilter, dataArray;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>let isRunning = false;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>let smoothedPitchMidi = 60;<span class="Apple-converted-space"> </span></span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>let viewCenterMidi = 60;<span class="Apple-converted-space"> </span></span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>let medianBuffer = [];</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>function resize() {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>ribbonCanvas.width = ribbonCanvas.offsetWidth;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>ribbonCanvas.height = ribbonCanvas.offsetHeight;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>window.addEventListener('resize', resize);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>resize();</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>function lerp(start, end, t) { return start * (1 - t) + end * t; }</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>function freqToMidi(f) { return 12 * Math.log2(f / 440) + 69; }</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>function autoCorrelate(buf, sampleRate) {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>let size = buf.length;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>let rms = 0;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>for (let i = 0; i &lt; size; i++) rms += buf[i] * buf[i];</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>rms = Math.sqrt(rms / size);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>if (rms &lt; 0.005) return -1;</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>let r1 = 0, r2 = size - 1, thres = 0.2;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>for (let i = 0; i &lt; size / 2; i++) if (Math.abs(buf[i]) &lt; thres) { r1 = i; break; }</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>for (let i = 1; i &lt; size / 2; i++) if (Math.abs(buf[size - i]) &lt; thres) { r2 = size - i; break; }</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>let audioSlice = buf.slice(r1, r2);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>let nsize = audioSlice.length;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>if (nsize === 0) return -1;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span></span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>let c = new Array(nsize).fill(0);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>for (let i = 0; i &lt; nsize; i++) {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>for (let j = 0; j &lt; nsize - i; j++) c[i] = c[i] + audioSlice[j] * audioSlice[j + i];</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>let d = 0; while (c[d] &gt; c[d + 1]) d++;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>let maxval = -1, maxpos = -1;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>for (let i = d; i &lt; nsize; i++) {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>if (c[i] &gt; maxval) { maxval = c[i]; maxpos = i; }</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>return sampleRate / maxpos;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>}</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>async function startAudio() {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>try {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>audioContext = new (window.AudioContext || window.webkitAudioContext)();</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>const stream = await navigator.mediaDevices.getUserMedia({ audio: true });</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>biquadFilter = audioContext.createBiquadFilter();</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>biquadFilter.type = "lowpass";</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>biquadFilter.frequency.value = 1100;<span class="Apple-converted-space"> </span></span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>analyser = audioContext.createAnalyser();</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>analyser.fftSize = 2048;<span class="Apple-converted-space"> </span></span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>const source = audioContext.createMediaStreamSource(stream);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>source.connect(biquadFilter);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>biquadFilter.connect(analyser);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>dataArray = new Float32Array(analyser.fftSize);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>startBtn.style.display = 'none';</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>isRunning = true;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>update();</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>} catch (e) { alert("Mic access denied."); }</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>}</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>function update() {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>if (!isRunning) return;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>analyser.getFloatTimeDomainData(dataArray);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>let rawFreq = autoCorrelate(dataArray, audioContext.sampleRate);</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>if (rawFreq &gt; 50 &amp;&amp; rawFreq &lt; 1200) {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>medianBuffer.push(rawFreq);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>if (medianBuffer.length &gt; MEDIAN_WINDOW) medianBuffer.shift();</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>let sorted = [...medianBuffer].sort((a, b) =&gt; a - b);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>let stableFreq = sorted[Math.floor(sorted.length / 2)];</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>let targetMidi = freqToMidi(stableFreq);</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>// Stabilized smoothing logic</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>if (Math.abs(targetMidi - smoothedPitchMidi) &gt; 2) {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>smoothedPitchMidi = targetMidi;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>} else {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>smoothedPitchMidi = lerp(smoothedPitchMidi, targetMidi, PITCH_SMOOTHING);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>}</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                </span></span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>// Tie the ribbon camera STRICTLY to the smoothed pitch to eliminate micro-jitter</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>viewCenterMidi = lerp(viewCenterMidi, smoothedPitchMidi, VIEW_SMOOTHING);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>updateDisplay(smoothedPitchMidi, true, stableFreq);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>} else {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>updateDisplay(smoothedPitchMidi, false, 0);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>}</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>drawRibbon(smoothedPitchMidi, viewCenterMidi);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>requestAnimationFrame(update);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>}</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>function updateDisplay(midi, hasSignal, freq) {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>if (!hasSignal) {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>swaraDisplay.style.color = "#334155";</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>return;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>const roundedMidi = Math.round(midi);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>const tonic = parseInt(tonicSelect.value);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>let interval = (roundedMidi - tonic) % 12;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>if (interval &lt; 0) interval += 12;</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>swaraDisplay.innerText = SARGAM[interval];</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>swaraDisplay.style.color = "#f59e0b";<span class="Apple-converted-space"> </span></span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>hzDisplay.innerText = `${freq.toFixed(1)} Hz`;</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>const deviation = (midi - roundedMidi) * 100;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>centsIndicator.style.left = `${Math.max(0, Math.min(100, 50 + deviation))}%`;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>centsIndicator.style.background = Math.abs(deviation) &lt; 10 ? "#22c55e" : "#f43f5e";</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>}</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>function drawRibbon(midi, viewCenter) {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>const w = ribbonCanvas.width, h = ribbonCanvas.height, cx = w / 2, pxPerSemi = w / 6;<span class="Apple-converted-space"> </span></span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>ctxRibbon.clearRect(0, 0, w, h);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>ctxRibbon.font = "bold 18px sans-serif";</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>ctxRibbon.textAlign = "center";</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>const tonic = parseInt(tonicSelect.value);</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span></span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>for (let m = Math.floor(viewCenter - 4); m &lt;= Math.ceil(viewCenter + 4); m++) {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>const diff = m - viewCenter, x = cx + (diff * pxPerSemi);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>const alpha = 1 - (Math.abs(diff) / 4);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>if (alpha &lt; 0) continue;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>let interval = (m - tonic) % 12;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>if (interval &lt; 0) interval += 12;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>ctxRibbon.fillStyle = `rgba(255, 255, 255, ${alpha})`;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>ctxRibbon.fillText(SARGAM[interval], x, h - 30);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>}</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span></span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>const needleX = cx + ((midi - viewCenter) * pxPerSemi);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>ctxRibbon.strokeStyle = "#f59e0b"; ctxRibbon.lineWidth = 4;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>ctxRibbon.beginPath(); ctxRibbon.moveTo(needleX, h); ctxRibbon.lineTo(needleX, h - 50); ctxRibbon.stroke();</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>}</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>startBtn.addEventListener('click', startAudio);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;/script&gt;</span></p>
+<p class="p1"><span class="s1">&lt;/body&gt;</span></p>
+<p class="p1"><span class="s1">&lt;/html&gt;</span></p>
+</body>
+</html>
