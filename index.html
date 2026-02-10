@@ -15,6 +15,7 @@
             --bmc-yellow: #FFDD00;
             --success: #22c55e;
             --danger: #f43f5e;
+            --feedback-bg: #064e3b; /* Soft green for Feedback Mode */
         }
 
         body {
@@ -27,9 +28,9 @@
             flex-direction: column;
             overflow: hidden;
             touch-action: manipulation;
+            transition: background-color 1s ease; /* Smooth transition for Feedback Mode */
         }
 
-        /* --- MOBILE RESPONSIVE HEADER --- */
         header {
             display: flex;
             flex-wrap: wrap;
@@ -53,8 +54,9 @@
         .logo-img {
             width: 35px;
             height: 35px;
-            border-radius: 6px;
+            border-radius: 4px; 
             transition: transform 0.1s ease-out;
+            will-change: transform;
         }
 
         .controls { 
@@ -87,7 +89,6 @@
             #swara-display { font-size: 4.5rem; }
         }
 
-        /* --- MAIN STAGE --- */
         .main-stage {
             flex: 1;
             display: flex;
@@ -151,7 +152,6 @@
             transform: translateX(-50%);
         }
 
-        /* --- RIBBON --- */
         .visualizer-container {
             width: 100%;
             height: 150px;
@@ -176,19 +176,6 @@
             align-items: center;
             gap: 6px;
             z-index: 100;
-        }
-
-        /* --- TOTAL HITS COUNTER (Subtle & Fixed) --- */
-        .visitor-counter {
-            position: fixed;
-            bottom: 15px;
-            left: 15px;
-            opacity: 0.4;
-            z-index: 10;
-        }
-        .visitor-counter img {
-            height: 16px;
-            filter: grayscale(1) invert(1) brightness(0.9);
         }
     </style>
 </head>
@@ -228,10 +215,6 @@
         </div>
     </div>
 
-    <div class="visitor-counter">
-        <img src="https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fajayprk.github.io%2Fhindustani-pitch-tuner&count_bg=%231E293B&title_bg=%230F172A&title=Hits&edge_flat=true" alt="Counter"/>
-    </div>
-
     <a href="https://buymeacoffee.com/ajayprkm" target="_blank" class="bmc-btn">
         ☕ Buy coffee
     </a>
@@ -257,6 +240,9 @@
         let isRunning = false, lastSignalTime = 0;
         let smoothedPitchMidi = 60, viewCenterMidi = 60; 
         let medianBuffer = [], minFreq = 50, maxFreq = 1200;
+        
+        // Feedback Mode State
+        let inTuneStartTime = null;
 
         rangeSelect.addEventListener('change', () => {
             if(rangeSelect.value === 'male') { minFreq = 65; maxFreq = 500; }
@@ -337,6 +323,8 @@
             if (!hasSignal) { 
                 swaraDisplay.style.color = "#334155"; 
                 centsIndicator.style.backgroundColor = "var(--text)";
+                document.body.style.backgroundColor = "var(--bg-color)";
+                inTuneStartTime = null;
                 return; 
             }
             const roundedMidi = Math.round(midi);
@@ -348,12 +336,22 @@
             swaraDisplay.style.color = "#f59e0b"; 
             hzDisplay.innerText = `${freq.toFixed(1)} Hz`;
             
-            // --- RESTORED COLOR LOGIC ---
             centsIndicator.style.left = `${50 + deviation}%`;
+            
             if (Math.abs(deviation) < 10) {
                 centsIndicator.style.backgroundColor = "var(--success)"; // Green
+                
+                // Start timer if not already running
+                if (inTuneStartTime === null) inTuneStartTime = Date.now();
+                
+                // Change background if held for 2 seconds
+                if (Date.now() - inTuneStartTime > 2000) {
+                    document.body.style.backgroundColor = "var(--feedback-bg)";
+                }
             } else {
                 centsIndicator.style.backgroundColor = "var(--danger)"; // Red
+                document.body.style.backgroundColor = "var(--bg-color)";
+                inTuneStartTime = null; // Reset timer
             }
         }
 
