@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Neural Notes Unlimited</title>
-    <link rel="icon" type="image/jpeg" href="favicon.jpg">
+    <link rel="icon" type="image/png" href="favicon.png">
     <style>
         :root {
             --bg-color: #0f172a;
@@ -52,7 +52,7 @@
             background: rgba(255, 255, 255, 0.1);
             border-radius: 8px;
             padding: 5px;
-            will-change: transform; /* Optimization for pulse */
+            will-change: transform; 
         }
 
         .brand-link {
@@ -178,18 +178,22 @@
             z-index: 10;
         }
         .visitor-counter img {
-            height: 16px;
-            filter: grayscale(1) invert(1);
+            height: 20px; /* Slightly larger for visibility */
         }
     </style>
 </head>
 <body>
     <header>
         <div class="logo-container">
-            <img src="favicon.jpg" class="logo-img" id="logo" alt="Logo">
+            <img src="favicon.png" class="logo-img" id="logo" alt="Logo">
             <a href="https://www.youtube.com/@NeuralNotesUnlimited" target="_blank" class="brand-link">Neural Notes Unlimited</a>
         </div>
         <div class="controls">
+            <select id="range-select">
+                <option value="universal">Range: Universal</option>
+                <option value="male">Range: Male (Low)</option>
+                <option value="female">Range: Female (High)</option>
+            </select>
             <select id="tonic-select">
                 <option value="0">Sa = C</option>
                 <option value="1">Sa = C#</option>
@@ -223,7 +227,7 @@
     </div>
 
     <div class="visitor-counter">
-        <img src="https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fajayprk.github.io%2Fhindustani-pitch-tuner&count_bg=%231E293B&title_bg=%230F172A&icon=&icon_color=%23E7E7E7&title=hits&edge_flat=true" alt="Counter"/>
+        <img src="https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fajayprk.github.io%2Fhindustani-pitch-tuner&count_bg=%231E293B&title_bg=%231E293B&icon=&icon_color=%23E7E7E7&title=Hits&edge_flat=true" alt="Counter"/>
     </div>
 
     <a href="https://buymeacoffee.com/ajayprkm" target="_blank" class="bmc-btn">
@@ -234,10 +238,10 @@
     <script>
         const SARGAM = ["Sa", "re", "Re", "ga", "Ga", "ma", "Ma", "Pa", "dha", "Dha", "ni", "Ni"];
         const PITCH_SMOOTHING = 0.12; 
-        const VIEW_SMOOTHING = 0.04; 
+        const VIEW_SMOOTHING = 0.05; 
         const MEDIAN_WINDOW = 9; 
         const UI_UPDATE_INTERVAL = 100;
-        const JUMP_THRESHOLD = 5; // Semitones
+        const JUMP_THRESHOLD = 5; 
 
         const ribbonCanvas = document.getElementById('ribbon-canvas');
         const ctxRibbon = ribbonCanvas.getContext('2d');
@@ -247,6 +251,7 @@
         const startBtn = document.getElementById('startButton');
         const logo = document.getElementById('logo');
         const tonicSelect = document.getElementById('tonic-select');
+        const rangeSelect = document.getElementById('range-select');
 
         let audioContext, analyser, biquadFilter, dataArray;
         let isRunning = false;
@@ -255,6 +260,19 @@
         let medianBuffer = [];
         let lastUIUpdateTime = 0;
         let stabilityCounter = 0;
+
+        // Default to Universal Range
+        let minFreq = 50;
+        let maxFreq = 1200;
+
+        // Update Range based on selection
+        rangeSelect.addEventListener('change', () => {
+            switch(rangeSelect.value) {
+                case 'male': minFreq = 60; maxFreq = 600; break;
+                case 'female': minFreq = 150; maxFreq = 1100; break;
+                default: minFreq = 50; maxFreq = 1200;
+            }
+        });
 
         function resize() {
             ribbonCanvas.width = ribbonCanvas.offsetWidth;
@@ -298,7 +316,8 @@
                 const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
                 biquadFilter = audioContext.createBiquadFilter();
                 biquadFilter.type = "lowpass";
-                biquadFilter.frequency.value = 1100; 
+                // Set initial filter based on default range
+                biquadFilter.frequency.value = maxFreq; 
                 analyser = audioContext.createAnalyser();
                 analyser.fftSize = 2048; 
                 const source = audioContext.createMediaStreamSource(stream);
@@ -313,9 +332,12 @@
 
         function update(currentTime) {
             if (!isRunning) return;
+            
+            // Update filter frequency in real-time based on selection
+            if (biquadFilter) biquadFilter.frequency.value = maxFreq;
+
             analyser.getFloatTimeDomainData(dataArray);
             
-            // Pulse Logo with Volume
             let rms = 0;
             for(let i=0; i<dataArray.length; i++) rms += dataArray[i]*dataArray[i];
             rms = Math.sqrt(rms/dataArray.length);
@@ -323,17 +345,17 @@
 
             let rawFreq = autoCorrelate(dataArray, audioContext.sampleRate);
 
-            if (rawFreq > 50 && rawFreq < 1200) {
+            // Use dynamic min/max freq based on Range Selection
+            if (rawFreq > minFreq && rawFreq < maxFreq) {
                 medianBuffer.push(rawFreq);
                 if (medianBuffer.length > MEDIAN_WINDOW) medianBuffer.shift();
                 let sorted = [...medianBuffer].sort((a, b) => a - b);
                 let stableFreq = sorted[Math.floor(sorted.length / 2)];
                 let targetMidi = freqToMidi(stableFreq);
 
-                // JUMP GUARD: Prevent octave spinning
                 const jumpDist = Math.abs(targetMidi - smoothedPitchMidi);
                 if (jumpDist > JUMP_THRESHOLD && stabilityCounter < 10) {
-                    stabilityCounter++; // Ignore the jump briefly
+                    stabilityCounter++; 
                 } else {
                     stabilityCounter = 0;
                     if (jumpDist > 3) smoothedPitchMidi = targetMidi;
