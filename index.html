@@ -13,6 +13,8 @@
             --text: #f8fafc;
             --text-muted: #94a3b8;
             --bmc-yellow: #FFDD00;
+            --success: #22c55e;
+            --danger: #f43f5e;
         }
 
         body {
@@ -33,7 +35,7 @@
             flex-wrap: wrap;
             justify-content: space-between;
             align-items: center;
-            padding: 15px 20px;
+            padding: 10px 20px;
             background: rgba(15, 23, 42, 0.95);
             border-bottom: 1px solid rgba(255,255,255,0.05);
             z-index: 10;
@@ -45,30 +47,30 @@
             align-items: center;
             gap: 10px;
             font-weight: 700;
-            font-size: 1.1rem;
+            font-size: 1rem;
         }
 
         .logo-img {
-            width: 40px;
-            height: 40px;
-            border-radius: 8px;
+            width: 35px;
+            height: 35px;
+            border-radius: 6px;
             transition: transform 0.1s ease-out;
         }
 
         .controls { 
             display: flex; 
-            gap: 8px; 
+            gap: 5px; 
             flex-grow: 1;
             justify-content: flex-end;
         }
 
         select, button {
-            padding: 8px 12px;
+            padding: 6px 10px;
             border-radius: 6px;
             border: 1px solid var(--surface-color);
             background: var(--surface-color);
             color: var(--text);
-            font-size: 0.85rem;
+            font-size: 0.75rem;
             outline: none;
         }
         
@@ -79,12 +81,13 @@
             font-weight: 600;
         }
 
-        @media (max-width: 600px) {
-            header { padding: 10px; justify-content: center; }
-            .controls { justify-content: center; width: 100%; }
-            #swara-display { font-size: 5rem ! stroke-width: 0; }
+        @media (max-width: 480px) {
+            header { padding: 8px; flex-direction: column; }
+            .controls { justify-content: center; width: 100%; margin-top: 5px; }
+            #swara-display { font-size: 4.5rem; }
         }
 
+        /* --- MAIN STAGE --- */
         .main-stage {
             flex: 1;
             display: flex;
@@ -96,12 +99,12 @@
 
         .note-container {
             text-align: center;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
             z-index: 2;
         }
 
         #swara-display {
-            font-size: 7rem;
+            font-size: 6rem;
             font-weight: 800;
             margin: 0;
             line-height: 1;
@@ -111,30 +114,32 @@
         #hz-display {
             font-family: monospace;
             color: var(--text-muted);
-            font-size: 1.1rem;
-            margin-top: 10px;
-            min-height: 1.5em;
+            font-size: 1rem;
+            margin-top: 8px;
+            min-height: 1.2em;
         }
 
         .fine-tune-bar {
-            width: 80%;
-            max-width: 300px;
-            height: 6px;
+            width: 70%;
+            max-width: 250px;
+            height: 4px;
             background: var(--surface-color);
-            border-radius: 3px;
-            margin: 20px auto;
+            border-radius: 2px;
+            margin: 15px auto;
             position: relative;
         }
 
         .fine-tune-indicator {
-            width: 12px;
-            height: 12px;
-            background: var(--text);
+            width: 14px;
+            height: 14px;
+            background: var(--text); 
             position: absolute;
             left: 50%;
-            top: -3px;
+            top: -5px;
             transform: translateX(-50%);
             border-radius: 50%;
+            box-shadow: 0 0 5px rgba(0,0,0,0.5);
+            transition: background-color 0.2s, left 0.1s linear;
         }
 
         .center-marker {
@@ -146,38 +151,44 @@
             transform: translateX(-50%);
         }
 
+        /* --- RIBBON --- */
         .visualizer-container {
             width: 100%;
-            height: 180px;
+            height: 150px;
             position: relative;
             background: linear-gradient(to bottom, transparent, rgba(30, 41, 59, 0.4));
         }
 
-        #ribbon-canvas { width: 100%; height: 180px; }
+        #ribbon-canvas { width: 100%; height: 150px; }
 
         .bmc-btn {
             position: fixed;
-            bottom: 20px;
-            right: 20px;
+            bottom: 15px;
+            right: 15px;
             background-color: var(--bmc-yellow);
             color: #000;
-            padding: 8px 16px;
-            border-radius: 20px;
+            padding: 6px 12px;
+            border-radius: 15px;
             text-decoration: none;
             font-weight: 700;
-            font-size: 0.8rem;
+            font-size: 0.75rem;
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 6px;
             z-index: 100;
         }
 
+        /* --- TOTAL HITS COUNTER (Subtle & Fixed) --- */
         .visitor-counter {
             position: fixed;
-            bottom: 20px;
-            left: 20px;
-            opacity: 0.5;
+            bottom: 15px;
+            left: 15px;
+            opacity: 0.4;
             z-index: 10;
+        }
+        .visitor-counter img {
+            height: 16px;
+            filter: grayscale(1) invert(1) brightness(0.9);
         }
     </style>
 </head>
@@ -185,7 +196,7 @@
     <header>
         <div class="logo-container">
             <img src="favicon.png" class="logo-img" id="logo" alt="Logo">
-            <span>Neural Notes Unlimited</span>
+            <span>Neural Notes</span>
         </div>
         <div class="controls">
             <select id="range-select">
@@ -218,7 +229,7 @@
     </div>
 
     <div class="visitor-counter">
-        <img src="https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fajayprk.github.io%2Fhindustani-pitch-tuner&count_bg=%231E293B&title_bg=%230F172A&icon=&icon_color=%23E7E7E7&title=Hits&edge_flat=true" alt="Hits">
+        <img src="https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fajayprk.github.io%2Fhindustani-pitch-tuner&count_bg=%231E293B&title_bg=%230F172A&title=Hits&edge_flat=true" alt="Counter"/>
     </div>
 
     <a href="https://buymeacoffee.com/ajayprkm" target="_blank" class="bmc-btn">
@@ -230,7 +241,7 @@
         const PITCH_SMOOTHING = 0.12; 
         const VIEW_SMOOTHING = 0.05; 
         const MEDIAN_WINDOW = 9; 
-        const SIGNAL_TIMEOUT = 1500; // Freeze ribbon for 1.5s after singing stops
+        const SIGNAL_TIMEOUT = 1200; 
 
         const ribbonCanvas = document.getElementById('ribbon-canvas');
         const ctxRibbon = ribbonCanvas.getContext('2d');
@@ -242,7 +253,7 @@
         const tonicSelect = document.getElementById('tonic-select');
         const rangeSelect = document.getElementById('range-select');
 
-        let audioContext, analyser, biquadFilter, dataArray;
+        let audioContext, analyser, dataArray;
         let isRunning = false, lastSignalTime = 0;
         let smoothedPitchMidi = 60, viewCenterMidi = 60; 
         let medianBuffer = [], minFreq = 50, maxFreq = 1200;
@@ -255,7 +266,7 @@
 
         function resize() {
             ribbonCanvas.width = window.innerWidth;
-            ribbonCanvas.height = 180;
+            ribbonCanvas.height = 150;
         }
         window.addEventListener('resize', resize);
         resize();
@@ -266,7 +277,7 @@
         function autoCorrelate(buf, sampleRate) {
             let rms = 0;
             for (let i = 0; i < buf.length; i++) rms += buf[i] * buf[i];
-            if (Math.sqrt(rms / buf.length) < 0.008) return -1;
+            if (Math.sqrt(rms / buf.length) < 0.01) return -1;
 
             let c = new Array(buf.length).fill(0);
             for (let i = 0; i < buf.length; i++) {
@@ -299,7 +310,7 @@
             
             let rms = 0;
             for(let i=0; i<dataArray.length; i++) rms += Math.abs(dataArray[i]);
-            logo.style.transform = `scale(${1 + (rms/dataArray.length) * 5})`;
+            logo.style.transform = `scale(${1 + (rms/dataArray.length) * 4})`;
 
             let rawFreq = autoCorrelate(dataArray, audioContext.sampleRate);
             let now = Date.now();
@@ -323,21 +334,33 @@
         }
 
         function updateDisplay(midi, hasSignal, freq) {
-            if (!hasSignal) { swaraDisplay.style.color = "#334155"; return; }
+            if (!hasSignal) { 
+                swaraDisplay.style.color = "#334155"; 
+                centsIndicator.style.backgroundColor = "var(--text)";
+                return; 
+            }
             const roundedMidi = Math.round(midi);
+            const deviation = (midi - roundedMidi) * 100;
             let interval = (roundedMidi - parseInt(tonicSelect.value)) % 12;
             if (interval < 0) interval += 12;
 
             swaraDisplay.innerText = SARGAM[interval];
             swaraDisplay.style.color = "#f59e0b"; 
             hzDisplay.innerText = `${freq.toFixed(1)} Hz`;
-            centsIndicator.style.left = `${50 + (midi - roundedMidi) * 100}%`;
+            
+            // --- RESTORED COLOR LOGIC ---
+            centsIndicator.style.left = `${50 + deviation}%`;
+            if (Math.abs(deviation) < 10) {
+                centsIndicator.style.backgroundColor = "var(--success)"; // Green
+            } else {
+                centsIndicator.style.backgroundColor = "var(--danger)"; // Red
+            }
         }
 
         function drawRibbon(midi, viewCenter) {
             const w = ribbonCanvas.width, h = ribbonCanvas.height, cx = w / 2, pxPerSemi = w / 5; 
             ctxRibbon.clearRect(0, 0, w, h);
-            ctxRibbon.font = "bold 20px sans-serif";
+            ctxRibbon.font = "bold 18px sans-serif";
             ctxRibbon.textAlign = "center";
             const tonic = parseInt(tonicSelect.value);
             
@@ -346,7 +369,7 @@
                 let interval = (m - tonic) % 12;
                 if (interval < 0) interval += 12;
                 ctxRibbon.fillStyle = `rgba(255, 255, 255, ${1 - Math.abs(m-viewCenter)/5})`;
-                ctxRibbon.fillText(SARGAM[interval], x, h / 2 + 10);
+                ctxRibbon.fillText(SARGAM[interval], x, h / 2 + 8);
             }
             
             ctxRibbon.strokeStyle = "#f59e0b"; ctxRibbon.lineWidth = 4;
