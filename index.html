@@ -52,7 +52,7 @@
             background: rgba(255, 255, 255, 0.1);
             border-radius: 8px;
             padding: 5px;
-            transition: transform 0.1s ease-out; /* For the Pulse animation */
+            will-change: transform; /* Optimization for pulse */
         }
 
         .brand-link {
@@ -234,9 +234,10 @@
     <script>
         const SARGAM = ["Sa", "re", "Re", "ga", "Ga", "ma", "Ma", "Pa", "dha", "Dha", "ni", "Ni"];
         const PITCH_SMOOTHING = 0.12; 
-        const VIEW_SMOOTHING = 0.05; 
+        const VIEW_SMOOTHING = 0.04; 
         const MEDIAN_WINDOW = 9; 
         const UI_UPDATE_INTERVAL = 100;
+        const JUMP_THRESHOLD = 5; // Semitones
 
         const ribbonCanvas = document.getElementById('ribbon-canvas');
         const ctxRibbon = ribbonCanvas.getContext('2d');
@@ -253,6 +254,7 @@
         let viewCenterMidi = 60; 
         let medianBuffer = [];
         let lastUIUpdateTime = 0;
+        let stabilityCounter = 0;
 
         function resize() {
             ribbonCanvas.width = ribbonCanvas.offsetWidth;
@@ -313,11 +315,11 @@
             if (!isRunning) return;
             analyser.getFloatTimeDomainData(dataArray);
             
-            // Pulse Animation Logic
-            let sum = 0;
-            for(let i=0; i<dataArray.length; i++) sum += Math.abs(dataArray[i]);
-            let volume = sum / dataArray.length;
-            logo.style.transform = `scale(${1 + volume * 2})`;
+            // Pulse Logo with Volume
+            let rms = 0;
+            for(let i=0; i<dataArray.length; i++) rms += dataArray[i]*dataArray[i];
+            rms = Math.sqrt(rms/dataArray.length);
+            logo.style.transform = `scale(${1 + rms * 3})`;
 
             let rawFreq = autoCorrelate(dataArray, audioContext.sampleRate);
 
@@ -328,11 +330,14 @@
                 let stableFreq = sorted[Math.floor(sorted.length / 2)];
                 let targetMidi = freqToMidi(stableFreq);
 
-                // Anti-Jumping logic: Only update camera if the note is close to current center
-                if (Math.abs(targetMidi - smoothedPitchMidi) > 2) {
-                    smoothedPitchMidi = targetMidi;
+                // JUMP GUARD: Prevent octave spinning
+                const jumpDist = Math.abs(targetMidi - smoothedPitchMidi);
+                if (jumpDist > JUMP_THRESHOLD && stabilityCounter < 10) {
+                    stabilityCounter++; // Ignore the jump briefly
                 } else {
-                    smoothedPitchMidi = lerp(smoothedPitchMidi, targetMidi, PITCH_SMOOTHING);
+                    stabilityCounter = 0;
+                    if (jumpDist > 3) smoothedPitchMidi = targetMidi;
+                    else smoothedPitchMidi = lerp(smoothedPitchMidi, targetMidi, PITCH_SMOOTHING);
                 }
                 
                 viewCenterMidi = lerp(viewCenterMidi, smoothedPitchMidi, VIEW_SMOOTHING);
