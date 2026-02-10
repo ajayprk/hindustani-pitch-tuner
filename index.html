@@ -28,7 +28,7 @@
             flex-direction: column;
             overflow: hidden;
             touch-action: manipulation;
-            transition: background-color 1s ease; /* Smooth transition for Feedback Mode */
+            transition: background-color 1s ease;
         }
 
         header {
@@ -52,9 +52,12 @@
         }
 
         .logo-img {
-            width: 35px;
-            height: 35px;
-            border-radius: 4px; 
+            width: 40px;
+            height: 40px;
+            /* REMOVED background and padding to fix white square */
+            background: none;
+            padding: 0;
+            border-radius: 0;
             transition: transform 0.1s ease-out;
             will-change: transform;
         }
@@ -241,7 +244,6 @@
         let smoothedPitchMidi = 60, viewCenterMidi = 60; 
         let medianBuffer = [], minFreq = 50, maxFreq = 1200;
         
-        // Feedback Mode State
         let inTuneStartTime = null;
 
         rangeSelect.addEventListener('change', () => {
@@ -339,19 +341,15 @@
             centsIndicator.style.left = `${50 + deviation}%`;
             
             if (Math.abs(deviation) < 10) {
-                centsIndicator.style.backgroundColor = "var(--success)"; // Green
-                
-                // Start timer if not already running
+                centsIndicator.style.backgroundColor = "var(--success)"; 
                 if (inTuneStartTime === null) inTuneStartTime = Date.now();
-                
-                // Change background if held for 2 seconds
                 if (Date.now() - inTuneStartTime > 2000) {
                     document.body.style.backgroundColor = "var(--feedback-bg)";
                 }
             } else {
-                centsIndicator.style.backgroundColor = "var(--danger)"; // Red
+                centsIndicator.style.backgroundColor = "var(--danger)"; 
                 document.body.style.backgroundColor = "var(--bg-color)";
-                inTuneStartTime = null; // Reset timer
+                inTuneStartTime = null; 
             }
         }
 
