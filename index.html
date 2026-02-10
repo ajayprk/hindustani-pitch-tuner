@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Neural Notes Unlimited</title>
     <link rel="icon" type="image/png" href="favicon.png">
     <style>
@@ -10,7 +10,6 @@
             --bg-color: #0f172a;
             --surface-color: #1e293b;
             --primary: #f59e0b;
-            --accent: #0ea5e9;
             --text: #f8fafc;
             --text-muted: #94a3b8;
             --bmc-yellow: #FFDD00;
@@ -25,54 +24,52 @@
             display: flex;
             flex-direction: column;
             overflow: hidden;
+            touch-action: manipulation;
         }
 
+        /* --- MOBILE RESPONSIVE HEADER --- */
         header {
             display: flex;
+            flex-wrap: wrap;
             justify-content: space-between;
             align-items: center;
-            padding: 20px 40px;
-            background: rgba(15, 23, 42, 0.9);
+            padding: 15px 20px;
+            background: rgba(15, 23, 42, 0.95);
             border-bottom: 1px solid rgba(255,255,255,0.05);
             z-index: 10;
+            gap: 10px;
         }
 
         .logo-container {
             display: flex;
             align-items: center;
-            gap: 15px;
+            gap: 10px;
             font-weight: 700;
-            font-size: 1.5rem;
+            font-size: 1.1rem;
         }
 
         .logo-img {
-            width: 45px;
-            height: 45px;
-            object-fit: contain;
-            background: rgba(255, 255, 255, 0.1);
+            width: 40px;
+            height: 40px;
             border-radius: 8px;
-            padding: 5px;
-            will-change: transform; 
+            transition: transform 0.1s ease-out;
         }
 
-        .brand-link {
-            color: var(--text);
-            text-decoration: none;
-            transition: color 0.2s ease;
+        .controls { 
+            display: flex; 
+            gap: 8px; 
+            flex-grow: 1;
+            justify-content: flex-end;
         }
-        
-        .brand-link:hover { color: var(--primary); }
-
-        .controls { display: flex; gap: 15px; }
 
         select, button {
-            padding: 8px 16px;
+            padding: 8px 12px;
             border-radius: 6px;
             border: 1px solid var(--surface-color);
             background: var(--surface-color);
             color: var(--text);
-            cursor: pointer;
-            font-size: 0.9rem;
+            font-size: 0.85rem;
+            outline: none;
         }
         
         button#startButton {
@@ -80,6 +77,12 @@
             color: #000;
             border: none;
             font-weight: 600;
+        }
+
+        @media (max-width: 600px) {
+            header { padding: 10px; justify-content: center; }
+            .controls { justify-content: center; width: 100%; }
+            #swara-display { font-size: 5rem ! stroke-width: 0; }
         }
 
         .main-stage {
@@ -108,20 +111,21 @@
         #hz-display {
             font-family: monospace;
             color: var(--text-muted);
-            font-size: 1.2rem;
+            font-size: 1.1rem;
             margin-top: 10px;
             min-height: 1.5em;
         }
 
         .fine-tune-bar {
-            width: 300px;
+            width: 80%;
+            max-width: 300px;
             height: 6px;
             background: var(--surface-color);
             border-radius: 3px;
-            margin: 25px auto;
+            margin: 20px auto;
             position: relative;
-            overflow: visible;
         }
+
         .fine-tune-indicator {
             width: 12px;
             height: 12px;
@@ -131,8 +135,8 @@
             top: -3px;
             transform: translateX(-50%);
             border-radius: 50%;
-            transition: left 0.1s linear; 
         }
+
         .center-marker {
             position: absolute;
             left: 50%;
@@ -140,45 +144,40 @@
             width: 2px;
             background: var(--primary);
             transform: translateX(-50%);
-            z-index: 1;
         }
 
         .visualizer-container {
             width: 100%;
-            height: 200px;
+            height: 180px;
             position: relative;
             background: linear-gradient(to bottom, transparent, rgba(30, 41, 59, 0.4));
         }
 
-        #ribbon-canvas { width: 100%; height: 200px; }
+        #ribbon-canvas { width: 100%; height: 180px; }
 
         .bmc-btn {
             position: fixed;
-            bottom: 25px;
-            right: 25px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
+            bottom: 20px;
+            right: 20px;
             background-color: var(--bmc-yellow);
-            color: #000000;
-            padding: 10px 20px;
-            border-radius: 30px;
+            color: #000;
+            padding: 8px 16px;
+            border-radius: 20px;
             text-decoration: none;
             font-weight: 700;
-            font-size: 1rem;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            font-size: 0.8rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
             z-index: 100;
         }
 
         .visitor-counter {
             position: fixed;
-            bottom: 15px;
+            bottom: 20px;
             left: 20px;
-            opacity: 0.4;
+            opacity: 0.5;
             z-index: 10;
-        }
-        .visitor-counter img {
-            height: 20px; /* Slightly larger for visibility */
         }
     </style>
 </head>
@@ -186,29 +185,21 @@
     <header>
         <div class="logo-container">
             <img src="favicon.png" class="logo-img" id="logo" alt="Logo">
-            <a href="https://www.youtube.com/@NeuralNotesUnlimited" target="_blank" class="brand-link">Neural Notes Unlimited</a>
+            <span>Neural Notes Unlimited</span>
         </div>
         <div class="controls">
             <select id="range-select">
-                <option value="universal">Range: Universal</option>
-                <option value="male">Range: Male (Low)</option>
-                <option value="female">Range: Female (High)</option>
+                <option value="universal">Universal</option>
+                <option value="male">Male</option>
+                <option value="female">Female</option>
             </select>
             <select id="tonic-select">
-                <option value="0">Sa = C</option>
-                <option value="1">Sa = C#</option>
-                <option value="2">Sa = D</option>
-                <option value="3">Sa = D#</option>
-                <option value="4">Sa = E</option>
-                <option value="5">Sa = F</option>
-                <option value="6">Sa = F#</option>
-                <option value="7">Sa = G</option>
-                <option value="8">Sa = G#</option>
-                <option value="9">Sa = A</option>
-                <option value="10">Sa = A#</option>
-                <option value="11">Sa = B</option>
+                <option value="0">Sa=C</option><option value="1">C#</option><option value="2">D</option>
+                <option value="3">D#</option><option value="4">E</option><option value="5">F</option>
+                <option value="6">F#</option><option value="7">G</option><option value="8">G#</option>
+                <option value="9">A</option><option value="10">A#</option><option value="11">B</option>
             </select>
-            <button id="startButton">Start Microphone</button>
+            <button id="startButton">Start</button>
         </div>
     </header>
 
@@ -227,12 +218,11 @@
     </div>
 
     <div class="visitor-counter">
-        <img src="https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fajayprk.github.io%2Fhindustani-pitch-tuner&count_bg=%231E293B&title_bg=%231E293B&icon=&icon_color=%23E7E7E7&title=Hits&edge_flat=true" alt="Counter"/>
+        <img src="https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fajayprk.github.io%2Fhindustani-pitch-tuner&count_bg=%231E293B&title_bg=%230F172A&icon=&icon_color=%23E7E7E7&title=Hits&edge_flat=true" alt="Hits">
     </div>
 
     <a href="https://buymeacoffee.com/ajayprkm" target="_blank" class="bmc-btn">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:20px;height:20px;"><path d="M18 8h1a4 4 0 0 1 0 8h-1"></path><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"></path><line x1="6" y1="1" x2="6" y2="4"></line><line x1="10" y1="1" x2="10" y2="4"></line><line x1="14" y1="1" x2="14" y2="4"></line></svg>
-        Buy me a coffee
+        ☕ Buy coffee
     </a>
 
     <script>
@@ -240,8 +230,7 @@
         const PITCH_SMOOTHING = 0.12; 
         const VIEW_SMOOTHING = 0.05; 
         const MEDIAN_WINDOW = 9; 
-        const UI_UPDATE_INTERVAL = 100;
-        const JUMP_THRESHOLD = 5; 
+        const SIGNAL_TIMEOUT = 1500; // Freeze ribbon for 1.5s after singing stops
 
         const ribbonCanvas = document.getElementById('ribbon-canvas');
         const ctxRibbon = ribbonCanvas.getContext('2d');
@@ -254,175 +243,115 @@
         const rangeSelect = document.getElementById('range-select');
 
         let audioContext, analyser, biquadFilter, dataArray;
-        let isRunning = false;
-        let smoothedPitchMidi = 60; 
-        let viewCenterMidi = 60; 
-        let medianBuffer = [];
-        let lastUIUpdateTime = 0;
-        let stabilityCounter = 0;
+        let isRunning = false, lastSignalTime = 0;
+        let smoothedPitchMidi = 60, viewCenterMidi = 60; 
+        let medianBuffer = [], minFreq = 50, maxFreq = 1200;
 
-        // Default to Universal Range
-        let minFreq = 50;
-        let maxFreq = 1200;
-
-        // Update Range based on selection
         rangeSelect.addEventListener('change', () => {
-            switch(rangeSelect.value) {
-                case 'male': minFreq = 60; maxFreq = 600; break;
-                case 'female': minFreq = 150; maxFreq = 1100; break;
-                default: minFreq = 50; maxFreq = 1200;
-            }
+            if(rangeSelect.value === 'male') { minFreq = 65; maxFreq = 500; }
+            else if(rangeSelect.value === 'female') { minFreq = 160; maxFreq = 1100; }
+            else { minFreq = 50; maxFreq = 1200; }
         });
 
         function resize() {
-            ribbonCanvas.width = ribbonCanvas.offsetWidth;
-            ribbonCanvas.height = ribbonCanvas.offsetHeight;
+            ribbonCanvas.width = window.innerWidth;
+            ribbonCanvas.height = 180;
         }
         window.addEventListener('resize', resize);
         resize();
 
-        function lerp(start, end, t) { return start * (1 - t) + end * t; }
+        function lerp(a, b, t) { return a * (1 - t) + b * t; }
         function freqToMidi(f) { return 12 * Math.log2(f / 440) + 69; }
 
         function autoCorrelate(buf, sampleRate) {
-            let size = buf.length;
             let rms = 0;
-            for (let i = 0; i < size; i++) rms += buf[i] * buf[i];
-            rms = Math.sqrt(rms / size);
-            if (rms < 0.005) return -1;
+            for (let i = 0; i < buf.length; i++) rms += buf[i] * buf[i];
+            if (Math.sqrt(rms / buf.length) < 0.008) return -1;
 
-            let r1 = 0, r2 = size - 1, thres = 0.2;
-            for (let i = 0; i < size / 2; i++) if (Math.abs(buf[i]) < thres) { r1 = i; break; }
-            for (let i = 1; i < size / 2; i++) if (Math.abs(buf[size - i]) < thres) { r2 = size - i; break; }
-            let audioSlice = buf.slice(r1, r2);
-            let nsize = audioSlice.length;
-            if (nsize === 0) return -1;
-            
-            let c = new Array(nsize).fill(0);
-            for (let i = 0; i < nsize; i++) {
-                for (let j = 0; j < nsize - i; j++) c[i] = c[i] + audioSlice[j] * audioSlice[j + i];
+            let c = new Array(buf.length).fill(0);
+            for (let i = 0; i < buf.length; i++) {
+                for (let j = 0; j < buf.length - i; j++) c[i] += buf[j] * buf[j + i];
             }
             let d = 0; while (c[d] > c[d + 1]) d++;
             let maxval = -1, maxpos = -1;
-            for (let i = d; i < nsize; i++) {
+            for (let i = d; i < buf.length; i++) {
                 if (c[i] > maxval) { maxval = c[i]; maxpos = i; }
             }
             return sampleRate / maxpos;
         }
 
         async function startAudio() {
-            try {
-                audioContext = new (window.AudioContext || window.webkitAudioContext)();
-                const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-                biquadFilter = audioContext.createBiquadFilter();
-                biquadFilter.type = "lowpass";
-                // Set initial filter based on default range
-                biquadFilter.frequency.value = maxFreq; 
-                analyser = audioContext.createAnalyser();
-                analyser.fftSize = 2048; 
-                const source = audioContext.createMediaStreamSource(stream);
-                source.connect(biquadFilter);
-                biquadFilter.connect(analyser);
-                dataArray = new Float32Array(analyser.fftSize);
-                startBtn.style.display = 'none';
-                isRunning = true;
-                update();
-            } catch (e) { alert("Mic access denied."); }
+            audioContext = new (window.AudioContext || window.webkitAudioContext)();
+            const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+            analyser = audioContext.createAnalyser();
+            analyser.fftSize = 2048; 
+            const source = audioContext.createMediaStreamSource(stream);
+            source.connect(analyser);
+            dataArray = new Float32Array(analyser.fftSize);
+            startBtn.style.display = 'none';
+            isRunning = true;
+            loop();
         }
 
-        function update(currentTime) {
+        function loop() {
             if (!isRunning) return;
-            
-            // Update filter frequency in real-time based on selection
-            if (biquadFilter) biquadFilter.frequency.value = maxFreq;
-
             analyser.getFloatTimeDomainData(dataArray);
             
             let rms = 0;
-            for(let i=0; i<dataArray.length; i++) rms += dataArray[i]*dataArray[i];
-            rms = Math.sqrt(rms/dataArray.length);
-            logo.style.transform = `scale(${1 + rms * 3})`;
+            for(let i=0; i<dataArray.length; i++) rms += Math.abs(dataArray[i]);
+            logo.style.transform = `scale(${1 + (rms/dataArray.length) * 5})`;
 
             let rawFreq = autoCorrelate(dataArray, audioContext.sampleRate);
+            let now = Date.now();
 
-            // Use dynamic min/max freq based on Range Selection
             if (rawFreq > minFreq && rawFreq < maxFreq) {
+                lastSignalTime = now;
                 medianBuffer.push(rawFreq);
                 if (medianBuffer.length > MEDIAN_WINDOW) medianBuffer.shift();
-                let sorted = [...medianBuffer].sort((a, b) => a - b);
-                let stableFreq = sorted[Math.floor(sorted.length / 2)];
+                let stableFreq = [...medianBuffer].sort((a,b)=>a-b)[Math.floor(medianBuffer.length/2)];
                 let targetMidi = freqToMidi(stableFreq);
 
-                const jumpDist = Math.abs(targetMidi - smoothedPitchMidi);
-                if (jumpDist > JUMP_THRESHOLD && stabilityCounter < 10) {
-                    stabilityCounter++; 
-                } else {
-                    stabilityCounter = 0;
-                    if (jumpDist > 3) smoothedPitchMidi = targetMidi;
-                    else smoothedPitchMidi = lerp(smoothedPitchMidi, targetMidi, PITCH_SMOOTHING);
-                }
-                
+                smoothedPitchMidi = lerp(smoothedPitchMidi, targetMidi, PITCH_SMOOTHING);
                 viewCenterMidi = lerp(viewCenterMidi, smoothedPitchMidi, VIEW_SMOOTHING);
-
-                if (currentTime - lastUIUpdateTime > UI_UPDATE_INTERVAL) {
-                    updateDisplay(smoothedPitchMidi, true, stableFreq);
-                    lastUIUpdateTime = currentTime;
-                }
-            } else {
-                if (currentTime - lastUIUpdateTime > UI_UPDATE_INTERVAL) {
-                    updateDisplay(smoothedPitchMidi, false, 0);
-                    lastUIUpdateTime = currentTime;
-                }
+                updateDisplay(smoothedPitchMidi, true, stableFreq);
+            } else if (now - lastSignalTime > SIGNAL_TIMEOUT) {
+                updateDisplay(smoothedPitchMidi, false, 0);
             }
 
             drawRibbon(smoothedPitchMidi, viewCenterMidi);
-            requestAnimationFrame(update);
+            requestAnimationFrame(loop);
         }
 
         function updateDisplay(midi, hasSignal, freq) {
-            if (!hasSignal) {
-                swaraDisplay.style.color = "#334155";
-                return;
-            }
+            if (!hasSignal) { swaraDisplay.style.color = "#334155"; return; }
             const roundedMidi = Math.round(midi);
-            const tonic = parseInt(tonicSelect.value);
-            let interval = (roundedMidi - tonic) % 12;
+            let interval = (roundedMidi - parseInt(tonicSelect.value)) % 12;
             if (interval < 0) interval += 12;
 
             swaraDisplay.innerText = SARGAM[interval];
             swaraDisplay.style.color = "#f59e0b"; 
             hzDisplay.innerText = `${freq.toFixed(1)} Hz`;
-
-            const deviation = (midi - roundedMidi) * 100;
-            centsIndicator.style.left = `${Math.max(0, Math.min(100, 50 + deviation))}%`;
-            centsIndicator.style.background = Math.abs(deviation) < 10 ? "#22c55e" : "#f43f5e";
+            centsIndicator.style.left = `${50 + (midi - roundedMidi) * 100}%`;
         }
 
         function drawRibbon(midi, viewCenter) {
             const w = ribbonCanvas.width, h = ribbonCanvas.height, cx = w / 2, pxPerSemi = w / 5; 
             ctxRibbon.clearRect(0, 0, w, h);
-            ctxRibbon.font = "bold 24px sans-serif";
+            ctxRibbon.font = "bold 20px sans-serif";
             ctxRibbon.textAlign = "center";
             const tonic = parseInt(tonicSelect.value);
             
-            for (let m = Math.floor(viewCenter - 6); m <= Math.ceil(viewCenter + 6); m++) {
-                const diff = m - viewCenter, x = cx + (diff * pxPerSemi);
-                const alpha = 1 - (Math.abs(diff) / 6);
-                if (alpha < 0) continue;
+            for (let m = Math.floor(viewCenter - 5); m <= Math.ceil(viewCenter + 5); m++) {
+                const x = cx + ((m - viewCenter) * pxPerSemi);
                 let interval = (m - tonic) % 12;
                 if (interval < 0) interval += 12;
-                
-                ctxRibbon.fillStyle = `rgba(255, 255, 255, ${alpha})`;
+                ctxRibbon.fillStyle = `rgba(255, 255, 255, ${1 - Math.abs(m-viewCenter)/5})`;
                 ctxRibbon.fillText(SARGAM[interval], x, h / 2 + 10);
             }
             
-            const needleX = cx + ((midi - viewCenter) * pxPerSemi);
-            ctxRibbon.strokeStyle = "#f59e0b"; 
-            ctxRibbon.lineWidth = 4;
-            ctxRibbon.beginPath(); 
-            ctxRibbon.moveTo(needleX, 0); 
-            ctxRibbon.lineTo(needleX, h); 
-            ctxRibbon.stroke();
+            ctxRibbon.strokeStyle = "#f59e0b"; ctxRibbon.lineWidth = 4;
+            ctxRibbon.beginPath(); ctxRibbon.moveTo(cx + (midi-viewCenter)*pxPerSemi, 0); 
+            ctxRibbon.lineTo(cx + (midi-viewCenter)*pxPerSemi, h); ctxRibbon.stroke();
         }
 
         startBtn.addEventListener('click', startAudio);
