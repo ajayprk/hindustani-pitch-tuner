@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Neural Notes Unlimited</title>
+    <link rel="icon" type="image/jpeg" href="favicon.jpg">
     <style>
         :root {
             --bg-color: #0f172a;
@@ -51,6 +52,7 @@
             background: rgba(255, 255, 255, 0.1);
             border-radius: 8px;
             padding: 5px;
+            transition: transform 0.1s ease-out; /* For the Pulse animation */
         }
 
         .brand-link {
@@ -130,7 +132,6 @@
             transform: translateX(-50%);
             border-radius: 50%;
             transition: left 0.1s linear; 
-            box-shadow: 0 0 8px rgba(255,255,255,0.5);
         }
         .center-marker {
             position: absolute;
@@ -169,23 +170,23 @@
             z-index: 100;
         }
 
-        /* --- STABLE VISITOR COUNTER --- */
         .visitor-counter {
             position: fixed;
             bottom: 15px;
             left: 20px;
-            font-family: monospace;
-            font-size: 0.75rem;
-            color: var(--text-muted);
             opacity: 0.4;
             z-index: 10;
+        }
+        .visitor-counter img {
+            height: 16px;
+            filter: grayscale(1) invert(1);
         }
     </style>
 </head>
 <body>
     <header>
         <div class="logo-container">
-            <img src="logo.jpg" class="logo-img" alt="Logo">
+            <img src="favicon.jpg" class="logo-img" id="logo" alt="Logo">
             <a href="https://www.youtube.com/@NeuralNotesUnlimited" target="_blank" class="brand-link">Neural Notes Unlimited</a>
         </div>
         <div class="controls">
@@ -221,7 +222,9 @@
         </div>
     </div>
 
-    <div class="visitor-counter" id="counter">Hits: --</div>
+    <div class="visitor-counter">
+        <img src="https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fajayprk.github.io%2Fhindustani-pitch-tuner&count_bg=%231E293B&title_bg=%230F172A&icon=&icon_color=%23E7E7E7&title=hits&edge_flat=true" alt="Counter"/>
+    </div>
 
     <a href="https://buymeacoffee.com/ajayprkm" target="_blank" class="bmc-btn">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:20px;height:20px;"><path d="M18 8h1a4 4 0 0 1 0 8h-1"></path><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"></path><line x1="6" y1="1" x2="6" y2="4"></line><line x1="10" y1="1" x2="10" y2="4"></line><line x1="14" y1="1" x2="14" y2="4"></line></svg>
@@ -231,7 +234,7 @@
     <script>
         const SARGAM = ["Sa", "re", "Re", "ga", "Ga", "ma", "Ma", "Pa", "dha", "Dha", "ni", "Ni"];
         const PITCH_SMOOTHING = 0.12; 
-        const VIEW_SMOOTHING = 0.04; 
+        const VIEW_SMOOTHING = 0.05; 
         const MEDIAN_WINDOW = 9; 
         const UI_UPDATE_INTERVAL = 100;
 
@@ -241,6 +244,7 @@
         const hzDisplay = document.getElementById('hz-display');
         const centsIndicator = document.getElementById('cents-indicator');
         const startBtn = document.getElementById('startButton');
+        const logo = document.getElementById('logo');
         const tonicSelect = document.getElementById('tonic-select');
 
         let audioContext, analyser, biquadFilter, dataArray;
@@ -249,19 +253,6 @@
         let viewCenterMidi = 60; 
         let medianBuffer = [];
         let lastUIUpdateTime = 0;
-
-        // --- NEW COUNTER LOGIC ---
-        async function fetchHits() {
-            try {
-                const response = await fetch('https://api.countapi.xyz/hit/ajayprk-hindustani-tuner/visits');
-                const data = await response.json();
-                document.getElementById('counter').innerText = `Hits: ${data.value}`;
-            } catch (e) {
-                // If the specific API fails, we use a static fallback to keep it looking clean
-                document.getElementById('counter').innerText = `Practice Session Active`;
-            }
-        }
-        fetchHits();
 
         function resize() {
             ribbonCanvas.width = ribbonCanvas.offsetWidth;
@@ -321,6 +312,13 @@
         function update(currentTime) {
             if (!isRunning) return;
             analyser.getFloatTimeDomainData(dataArray);
+            
+            // Pulse Animation Logic
+            let sum = 0;
+            for(let i=0; i<dataArray.length; i++) sum += Math.abs(dataArray[i]);
+            let volume = sum / dataArray.length;
+            logo.style.transform = `scale(${1 + volume * 2})`;
+
             let rawFreq = autoCorrelate(dataArray, audioContext.sampleRate);
 
             if (rawFreq > 50 && rawFreq < 1200) {
@@ -330,6 +328,7 @@
                 let stableFreq = sorted[Math.floor(sorted.length / 2)];
                 let targetMidi = freqToMidi(stableFreq);
 
+                // Anti-Jumping logic: Only update camera if the note is close to current center
                 if (Math.abs(targetMidi - smoothedPitchMidi) > 2) {
                     smoothedPitchMidi = targetMidi;
                 } else {
@@ -379,9 +378,9 @@
             ctxRibbon.textAlign = "center";
             const tonic = parseInt(tonicSelect.value);
             
-            for (let m = Math.floor(viewCenter - 4); m <= Math.ceil(viewCenter + 4); m++) {
+            for (let m = Math.floor(viewCenter - 6); m <= Math.ceil(viewCenter + 6); m++) {
                 const diff = m - viewCenter, x = cx + (diff * pxPerSemi);
-                const alpha = 1 - (Math.abs(diff) / 4);
+                const alpha = 1 - (Math.abs(diff) / 6);
                 if (alpha < 0) continue;
                 let interval = (m - tonic) % 12;
                 if (interval < 0) interval += 12;
@@ -391,19 +390,12 @@
             }
             
             const needleX = cx + ((midi - viewCenter) * pxPerSemi);
-
-            // --- GLOWING NEEDLE EFFECT ---
-            ctxRibbon.shadowBlur = 15;
-            ctxRibbon.shadowColor = "#f59e0b";
             ctxRibbon.strokeStyle = "#f59e0b"; 
             ctxRibbon.lineWidth = 4;
             ctxRibbon.beginPath(); 
             ctxRibbon.moveTo(needleX, 0); 
             ctxRibbon.lineTo(needleX, h); 
             ctxRibbon.stroke();
-            
-            // Reset shadow so it doesn't affect other elements
-            ctxRibbon.shadowBlur = 0;
         }
 
         startBtn.addEventListener('click', startAudio);
