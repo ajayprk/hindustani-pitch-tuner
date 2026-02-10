@@ -91,7 +91,7 @@
 
         .note-container {
             text-align: center;
-            margin-bottom: 40px;
+            margin-bottom: 20px;
             z-index: 2;
         }
 
@@ -108,6 +108,7 @@
             color: var(--text-muted);
             font-size: 1.2rem;
             margin-top: 10px;
+            min-height: 1.5em;
         }
 
         .fine-tune-bar {
@@ -128,7 +129,7 @@
             top: -3px;
             transform: translateX(-50%);
             border-radius: 50%;
-            transition: left 0.15s ease-out; 
+            transition: left 0.1s linear; 
             box-shadow: 0 0 8px rgba(255,255,255,0.5);
         }
         .center-marker {
@@ -143,12 +144,12 @@
 
         .visualizer-container {
             width: 100%;
-            height: 120px;
+            height: 200px; /* INCREASED HEIGHT */
             position: relative;
-            background: linear-gradient(to bottom, transparent, rgba(30, 41, 59, 0.3));
+            background: linear-gradient(to bottom, transparent, rgba(30, 41, 59, 0.4));
         }
 
-        #ribbon-canvas { width: 100%; height: 100px; }
+        #ribbon-canvas { width: 100%; height: 200px; } /* MATCHED HEIGHT */
 
         .bmc-btn {
             position: fixed;
@@ -172,12 +173,12 @@
             position: fixed;
             bottom: 15px;
             left: 20px;
-            opacity: 0.4;
+            opacity: 0.3;
             z-index: 10;
         }
         .visitor-counter img {
-            height: 18px; /* Slightly smaller for subtlety */
-            filter: grayscale(1) invert(1) brightness(1.2);
+            height: 14px;
+            filter: grayscale(1) invert(1);
         }
     </style>
 </head>
@@ -221,7 +222,7 @@
     </div>
 
     <div class="visitor-counter">
-        <img src="https://count.getloli.com/get/@ajayprk-tuner?theme=gelbooru" alt="Visitor Counter">
+        <img src="https://counter.secrethub.io/counter/ajayprk-tuner-minimal" alt="Visitor Counter">
     </div>
 
     <a href="https://buymeacoffee.com/ajayprkm" target="_blank" class="bmc-btn">
@@ -234,6 +235,7 @@
         const PITCH_SMOOTHING = 0.12; 
         const VIEW_SMOOTHING = 0.04; 
         const MEDIAN_WINDOW = 9; 
+        const UI_UPDATE_INTERVAL = 100;
 
         const ribbonCanvas = document.getElementById('ribbon-canvas');
         const ctxRibbon = ribbonCanvas.getContext('2d');
@@ -248,6 +250,7 @@
         let smoothedPitchMidi = 60; 
         let viewCenterMidi = 60; 
         let medianBuffer = [];
+        let lastUIUpdateTime = 0;
 
         function resize() {
             ribbonCanvas.width = ribbonCanvas.offsetWidth;
@@ -304,7 +307,7 @@
             } catch (e) { alert("Mic access denied."); }
         }
 
-        function update() {
+        function update(currentTime) {
             if (!isRunning) return;
             analyser.getFloatTimeDomainData(dataArray);
             let rawFreq = autoCorrelate(dataArray, audioContext.sampleRate);
@@ -323,9 +326,16 @@
                 }
                 
                 viewCenterMidi = lerp(viewCenterMidi, smoothedPitchMidi, VIEW_SMOOTHING);
-                updateDisplay(smoothedPitchMidi, true, stableFreq);
+
+                if (currentTime - lastUIUpdateTime > UI_UPDATE_INTERVAL) {
+                    updateDisplay(smoothedPitchMidi, true, stableFreq);
+                    lastUIUpdateTime = currentTime;
+                }
             } else {
-                updateDisplay(smoothedPitchMidi, false, 0);
+                if (currentTime - lastUIUpdateTime > UI_UPDATE_INTERVAL) {
+                    updateDisplay(smoothedPitchMidi, false, 0);
+                    lastUIUpdateTime = currentTime;
+                }
             }
 
             drawRibbon(smoothedPitchMidi, viewCenterMidi);
@@ -352,9 +362,9 @@
         }
 
         function drawRibbon(midi, viewCenter) {
-            const w = ribbonCanvas.width, h = ribbonCanvas.height, cx = w / 2, pxPerSemi = w / 6; 
+            const w = ribbonCanvas.width, h = ribbonCanvas.height, cx = w / 2, pxPerSemi = w / 5; 
             ctxRibbon.clearRect(0, 0, w, h);
-            ctxRibbon.font = "bold 18px sans-serif";
+            ctxRibbon.font = "bold 24px sans-serif"; // BIGGER FONT
             ctxRibbon.textAlign = "center";
             const tonic = parseInt(tonicSelect.value);
             
@@ -364,13 +374,18 @@
                 if (alpha < 0) continue;
                 let interval = (m - tonic) % 12;
                 if (interval < 0) interval += 12;
+                
                 ctxRibbon.fillStyle = `rgba(255, 255, 255, ${alpha})`;
-                ctxRibbon.fillText(SARGAM[interval], x, h - 30);
+                ctxRibbon.fillText(SARGAM[interval], x, h / 2 + 10); // CENTERED
             }
             
             const needleX = cx + ((midi - viewCenter) * pxPerSemi);
-            ctxRibbon.strokeStyle = "#f59e0b"; ctxRibbon.lineWidth = 4;
-            ctxRibbon.beginPath(); ctxRibbon.moveTo(needleX, h); ctxRibbon.lineTo(needleX, h - 50); ctxRibbon.stroke();
+            ctxRibbon.strokeStyle = "#f59e0b"; 
+            ctxRibbon.lineWidth = 4;
+            ctxRibbon.beginPath(); 
+            ctxRibbon.moveTo(needleX, 0); // FULL HEIGHT NEEDLE
+            ctxRibbon.lineTo(needleX, h); 
+            ctxRibbon.stroke();
         }
 
         startBtn.addEventListener('click', startAudio);
